@@ -1,5 +1,5 @@
 // Typography & Language
-#let font-family = ("Carlito", "Calibri")
+#let font-family = ("Calibri", "Carlito")
 #let font-size = 12pt
 #let font-lang = "es"
 #let font-hyphenate = false
@@ -12,7 +12,7 @@
 #let page-number-align = center
 
 // Paragraph & Line Spacing
-#let par-justify = false
+#let par-justify = true
 #let par-first-line-indent = 0pt
 #let par-spacing = 0.75em
 #let par-leading = 0.6em

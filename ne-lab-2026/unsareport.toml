@@ -3,7 +3,7 @@ config_version = 1
 
 [package]
 name = "@unsareport/ne-lab-2026"
-version = "0.1.0"
+version = "0.1.1"
 displayName = "NE Lab 2026 Report Template & Layout"
 description = "Plantilla e infraestructura de informes de Negocios Electrónicos (UNSA) con sangría jerárquica y renombrado automático post-build"
 tags = ["unsa", "ne", "negocios-electronicos", "report", "template"]

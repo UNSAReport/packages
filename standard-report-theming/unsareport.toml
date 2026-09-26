@@ -3,7 +3,7 @@ config_version = 1
 
 [package]
 name = "@unsareport/standard-report-theming"
-version = "0.1.0"
+version = "0.1.1"
 displayName = "UNSA Standard Report Theming"
 description = "Theme variables, typography, geometry, paragraph spacing, heading sizes, and table styling for UNSA standard reports"
 tags = ["theme", "unsa", "report", "theming", "standard"]

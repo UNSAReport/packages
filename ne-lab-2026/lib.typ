@@ -101,7 +101,6 @@
     "Grupo"
   }
 
-  // Export metadata for unsarep and post-build copy hooks
   define("university", university)
   define("faculty", faculty)
   define("school", school)
