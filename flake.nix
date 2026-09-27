@@ -32,6 +32,7 @@
         ];
         shellPkgs = pkgs.lib.flatten [
           (with pkgs; [
+            bun
           ])
           (with unstable; [
             typst

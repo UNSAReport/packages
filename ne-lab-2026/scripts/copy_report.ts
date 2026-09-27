@@ -1,15 +1,3 @@
-#!/usr/bin/env bun
-/// Post-build hook for `@unsareport/ne-lab-2026`.
-///
-/// Copies the compiled report.pdf to the required `filename_format` derived
-/// from metadata variables exported via `<var_export>` (read through
-/// `@unsareport/define`'s shared reader).
-///
-/// Runs as an after-build hook: unsarep sets cwd to the project root and
-/// exports UNSAREP_REPORT_DIR, UNSAREP_TYPST_ENTRY, and
-/// UNSAREP_CONFIG_NE_LAB_2026_FILENAME_FORMAT (installed from the package's
-/// required `filename_format` config).
-
 import { copyFileSync, existsSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { readVars } from "@unsareport/define/scripts/read-vars.ts";
@@ -63,7 +51,10 @@ if (!existsSync(entryFile)) {
   throw new Error(`Typst entry file not found: '${entryFile}'`);
 }
 
-const sourcePdf = join(reportDir, COMPILED_PDF_NAME);
+const expectedPdf = entryName.replace(/\.typ$/, ".pdf");
+const sourcePdf = existsSync(join(reportDir, expectedPdf))
+  ? join(reportDir, expectedPdf)
+  : join(reportDir, COMPILED_PDF_NAME);
 if (!existsSync(sourcePdf)) {
   throw new Error(`Compiled PDF not found: expected '${sourcePdf}'`);
 }

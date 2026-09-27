@@ -63,7 +63,10 @@ if (!existsSync(entryFile)) {
   throw new Error(`Typst entry file not found: '${entryFile}'`);
 }
 
-const sourcePdf = join(reportDir, COMPILED_PDF_NAME);
+const expectedPdf = entryName.replace(/\.typ$/, ".pdf");
+const sourcePdf = existsSync(join(reportDir, expectedPdf))
+  ? join(reportDir, expectedPdf)
+  : join(reportDir, COMPILED_PDF_NAME);
 if (!existsSync(sourcePdf)) {
   throw new Error(`Compiled PDF not found: expected '${sourcePdf}'`);
 }

@@ -1,6 +1,9 @@
 [project]
 config_version = 1
 
+[workspace]
+packages = ["*"]
+
 [scope]
 name = "@unsareport"
 description = "Official UNSAReport component library and styling"
