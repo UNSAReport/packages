@@ -14,7 +14,8 @@ This package isolates all aesthetic and structural sizing tokens used by `@unsar
 - **Headings & Title**: `heading-font-size`, `heading-weight`, `heading-space-above`, `heading-space-below`, `title-text-size`, `title-weight`, `title-space-below`
 - **Indentation Engine**: `indent-width`, `num-gutter`
 - **Tables & Figures**: `table-header-fill`, `table-cell-stroke`, `table-text-size`, `table-header-weight`
-- **Institutional Defaults**: `cover-logo-width`, `default-university`, `default-faculty`, `default-school`, `default-activity-type`, `default-city-country`
+- **Institutional & Project Configuration**: `cover-logo-width`, `faculty`, `school`
+
 
 ## Usage
 

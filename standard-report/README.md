@@ -22,20 +22,18 @@ This package depends on:
 #import "/components/@unsareport/standard-report/lib.typ": standard-report, no-indent-block, force-indent-block
 
 #show: standard-report.with(
+  pretitle: "ACTIVIDAD PRÁCTICA",
   title: [DOCUMENTACIÓN TÉCNICA DEL PROYECTO],
+  course: "GESTIÓN DE PROYECTOS DE SOFTWARE",
+  group: "TURNO A - GRUPO 1",
+  teacher: "MG. DOCENTE DEL CURSO",
+  activity_code: "T2",
   authors: (
     "Integrante 1",
     "Integrante 2",
     "Integrante 3",
     "Integrante 4",
   ),
-  authors_short: "Integrante1-Integrante2-Integrante3-Integrante4",
-  course: "GESTIÓN DE PROYECTOS DE SOFTWARE",
-  course_abbr: "GPS",
-  group: "TURNO A - GRUPO 1",
-  teacher: "MG. DOCENTE DEL CURSO",
-  activity_type: "ACTIVIDAD PRÁCTICA",
-  activity_number: "T2",
 )
 
 = Introducción
@@ -49,7 +47,8 @@ Configure the renaming pattern in `unsareport.toml` or `unsareport.d/config/unsa
 
 ```toml
 [config-schema.filename_format]
-default = "{course_abbr} - {activity_number} - {group} - Informe.pdf"
+default = "{course} - {activity_code} - {group} - Informe.pdf"
 ```
 
-Available tokens: `{course_abbr}`, `{course}`, `{activity_number}`, `{activity_type}`, `{group}`, `{authors_short}`, `{year}`, `{title}`, `{teacher}`, `{docente}`, `{university}`, `{faculty}`, `{school}`.
+Available tokens: `{course}`, `{activity_code}`, `{group}`, `{pretitle}`, `{title}`, `{teacher}`, `{authors}`, `{year}`, `{faculty}`, `{school}`, `{university}`, `{city_country}`.
+

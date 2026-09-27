@@ -1,4 +1,3 @@
-// Colors
 #let primary-color = rgb("#C8310E")
 #let header-border-color = rgb("#808080")
 #let table-border-color = black
@@ -7,7 +6,6 @@
 #let table-inset = 0.5em
 #let code-bg-color = rgb("#F1F3F4")
 
-// Typography & Document Geometry
 #let font-family = ("Carlito", "Calibri")
 #let font-lang = "es"
 #let page-paper = "a4"
@@ -19,19 +17,16 @@
 )
 #let page-header-ascent = 5%
 
-// Institutional Page Header
 #let header-institution-text-size = 7.5pt
 #let header-meta-text-size = 7pt
 #let header-title-text-size = 13pt
 #let header-spacing-bottom = 1em
 
-// Basic Info Table
 #let info-table-text-size = 8.5pt
 #let info-header-text-size = 11pt
 #let info-header-fill = primary-color
 #let info-header-text-color = white
 
-// Headings & Lists
 #let heading-1-size = 10pt
 #let heading-2-size = 9pt
 #let list-indent = 1em
@@ -39,7 +34,6 @@
 #let enum-numbering = "1."
 #let image-default-width = 90%
 
-// Lab Section
 #let section-align-mode = left + top
 #let section-stroke = black + 1pt
 #let section-inset = 0.5em

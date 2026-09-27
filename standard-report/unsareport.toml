@@ -29,5 +29,6 @@ after = ["copy-report"]
 [config-schema.filename_format]
 type = "string"
 required = true
-default = "{course_abbr} - {activity_number} - {group} - Informe.pdf"
-doc = "Format string for renaming compiled report. Tokens: {course_abbr}, {course}, {activity_number}, {activity_type}, {group}, {authors_short}, {year}, {title}, etc. Passed to the copy-report hook as UNSAREP_CONFIG_STANDARD_REPORT_FILENAME_FORMAT."
+default = "{course} - {activity_code} - {group} - Informe.pdf"
+doc = "Format string for renaming compiled report. Tokens: {course}, {activity_code}, {group}, {pretitle}, {title}, {teacher}, {authors}, {year}, {faculty}, {school}, {university}, {city_country}. Passed to the copy-report hook as UNSAREP_CONFIG_STANDARD_REPORT_FILENAME_FORMAT."
+

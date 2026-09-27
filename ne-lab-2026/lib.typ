@@ -7,6 +7,7 @@
 #let FORCE-INDENT-OPEN-MARK = "__force-indent-open"
 #let FORCE-INDENT-CLOSE-MARK = "__force-indent-close"
 #let FORCE-INDENT-DEFAULT-LEVEL = 1
+#let INDENT-LEVEL-OFFSET = 1
 #let num-gutter = 0.6em
 #let indent-width = 12pt
 #let heading-num-width = state("heading-num-width", 0pt)
@@ -28,7 +29,7 @@
       ]
     } else {
       let current-num-width = heading-num-width.get()
-      block(inset: (left: indent-width * h.level + current-num-width))[
+      block(inset: (left: indent-width * (h.level - INDENT-LEVEL-OFFSET) + current-num-width))[
         #it
       ]
     }
@@ -42,7 +43,7 @@
     it
   } else {
     let current-num-width = heading-num-width.get()
-    block(inset: (left: indent-width * h.level + current-num-width))[
+    block(inset: (left: indent-width * (h.level - INDENT-LEVEL-OFFSET) + current-num-width))[
       #it
     ]
   }
@@ -163,7 +164,7 @@
       0pt
     }
     heading-num-width.update(current-num-width)
-    block(inset: (left: indent-width * it.level))[
+    block(inset: (left: indent-width * (it.level - INDENT-LEVEL-OFFSET)))[
       #grid(
         columns: (current-num-width, 1fr),
         num-content,

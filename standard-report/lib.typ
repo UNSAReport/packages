@@ -15,31 +15,41 @@
 #let STATE-KEY-IN-TABLE = "in-table"
 
 #let VAR-TITLE = "title"
+#let VAR-PRETITLE = "pretitle"
 #let VAR-COURSE = "course"
-#let VAR-COURSE-ABBR = "course_abbr"
-#let VAR-TEACHER = "teacher"
-#let VAR-DOCENTE = "docente"
 #let VAR-GROUP = "group"
-#let VAR-ACTIVITY-TYPE = "activity_type"
-#let VAR-ACTIVITY-NUMBER = "activity_number"
+#let VAR-TEACHER = "teacher"
+#let VAR-ACTIVITY-CODE = "activity_code"
 #let VAR-AUTHORS = "authors"
-#let VAR-AUTHORS-SHORT = "authors_short"
 #let VAR-YEAR = "year"
 #let VAR-UNIVERSITY = "university"
 #let VAR-FACULTY = "faculty"
 #let VAR-SCHOOL = "school"
 #let VAR-CITY-COUNTRY = "city_country"
 
-#let DEFAULT-AUTHORS-SHORT-FALLBACK = "Informe"
+#let INSTITUTION-UNIVERSITY = "UNIVERSIDAD NACIONAL DE SAN AGUSTÍN"
+#let INSTITUTION-CITY-COUNTRY = "AREQUIPA - PERÚ"
 #let DEFAULT-LOGO-PATH = "img/logo.png"
+
 #let COVER-LABEL-COURSE = "ASIGNATURA"
 #let COVER-LABEL-TEACHER = "DOCENTE"
-#let COVER-LABEL-AUTHORS = "INTEGRANTES"
+#let COVER-LABEL-AUTHORS-MULTIPLE = "INTEGRANTES"
+#let COVER-LABEL-AUTHORS-SINGLE = "PRESENTADO POR"
+
+#let PLACEHOLDER-PRETITLE = "INGRESE PRETITULO"
+#let PLACEHOLDER-TITLE = "INGRESE TITULO"
+#let PLACEHOLDER-COURSE = "INGRESE CURSO"
+#let PLACEHOLDER-GROUP = "INGRESE GRUPO"
+#let PLACEHOLDER-TEACHER = "INGRESE DOCENTE"
+#let PLACEHOLDER-ACTIVITY-CODE = "INGRESE CODIGO DE ACTIVIDAD"
+#let PLACEHOLDER-AUTHORS = ("INGRESE AUTORES",)
+
 #let FIGURE-SPACE-BELOW = 1.5em
 #let TABLE-HEADER-ROW-INDEX = 0
 
 #let heading-num-width = state(STATE-KEY-HEADING-NUM-WIDTH, INITIAL-HEADING-NUM-WIDTH)
 #let in-table = state(STATE-KEY-IN-TABLE, false)
+
 
 #let to-string(it) = {
   if type(it) == str {
@@ -199,38 +209,57 @@
 }
 
 
+#let is-empty-value(val) = {
+  if val == none {
+    true
+  } else if type(val) == str {
+    val.trim() == ""
+  } else if type(val) == array {
+    val.len() == 0
+  } else if type(val) == content {
+    to-string(val).trim() == ""
+  } else {
+    false
+  }
+}
+
+#let resolve-authors(authors) = {
+  if is-empty-value(authors) {
+    PLACEHOLDER-AUTHORS
+  } else if type(authors) == array {
+    authors
+  } else if type(authors) == str {
+    (authors,)
+  } else {
+    (to-string(authors),)
+  }
+}
+
 #let register-document-metadata(
   title: "",
+  pretitle: "",
   course: "",
-  course-abbr: "",
-  teacher: "",
   group: "",
-  activity-type: "",
-  activity-number: "",
+  teacher: "",
+  activity-code: "",
   authors: (),
-  authors-short: "",
   year: "",
-  university: "",
   faculty: "",
   school: "",
-  city-country: "",
   custom-variables: (:),
 ) = {
   define(VAR-TITLE, title)
+  define(VAR-PRETITLE, pretitle)
   define(VAR-COURSE, course)
-  define(VAR-COURSE-ABBR, course-abbr)
-  define(VAR-TEACHER, teacher)
-  define(VAR-DOCENTE, teacher)
   define(VAR-GROUP, group)
-  define(VAR-ACTIVITY-TYPE, activity-type)
-  define(VAR-ACTIVITY-NUMBER, activity-number)
+  define(VAR-TEACHER, teacher)
+  define(VAR-ACTIVITY-CODE, activity-code)
   define(VAR-AUTHORS, authors)
-  define(VAR-AUTHORS-SHORT, authors-short)
   define(VAR-YEAR, year)
-  define(VAR-UNIVERSITY, university)
+  define(VAR-UNIVERSITY, INSTITUTION-UNIVERSITY)
   define(VAR-FACULTY, faculty)
   define(VAR-SCHOOL, school)
-  define(VAR-CITY-COUNTRY, city-country)
+  define(VAR-CITY-COUNTRY, INSTITUTION-CITY-COUNTRY)
 
   for (name, val) in custom-variables {
     define(name, val)
@@ -238,45 +267,36 @@
 }
 
 #let render-cover-page(
-  university: "",
-  faculty: "",
-  school: "",
-  logo: none,
-  activity_type: "",
+  pretitle: "",
   title: "",
   course: "",
   group: "",
   teacher: "",
   authors: (),
-  city_country: "",
+  label-authors: COVER-LABEL-AUTHORS-SINGLE,
+  faculty: "",
+  school: "",
   year: "",
 ) = {
   align(center)[
     #set par(leading: cover-par-leading)
-    #strong[#university]\
+    #strong[#INSTITUTION-UNIVERSITY]\
     #strong[#faculty]\
     #strong[#school]\ \
 
-    #if logo != none {
-      logo
-      [\ ]
-    } else {
-      none
-    }
+    #image(DEFAULT-LOGO-PATH, width: cover-logo-width)\ \
 
-    #strong[#activity_type]\
+    #strong[#pretitle]\
     #title\ \
 
     #strong[#COVER-LABEL-COURSE]\
     #course\
-    #if group != "" [
-      #group\
-    ]\
+    #group\ \
 
     #strong[#COVER-LABEL-TEACHER]\
     #teacher\ \
 
-    #strong[#COVER-LABEL-AUTHORS]\
+    #strong[#label-authors]\
     #if type(authors) == array {
       authors.join("\n")
     } else {
@@ -284,7 +304,7 @@
     }\
     \
 
-    #strong[#city_country]\
+    #strong[#INSTITUTION-CITY-COUNTRY]\
     #strong[#year]
   ]
 }
@@ -297,78 +317,50 @@
 }
 
 #let standard-report(
-  title: "",
-  authors: (),
-  course: "",
+  pretitle: none,
+  title: none,
+  course: none,
+  group: none,
   teacher: none,
-  docente: none,
-  group: "",
-  activity_type: default-activity-type,
-  activity_number: none,
-  course_abbr: none,
-  authors_short: none,
-  year: none,
-  university: default-university,
-  faculty: default-faculty,
-  school: default-school,
-  city_country: default-city-country,
-  logo: auto,
+  activity_code: none,
+  authors: none,
   custom_variables: (:),
   doc,
 ) = {
-  let gen-time = datetime.today()
-  let resolved-year = if year != none {
-    str(year)
+  let resolved-pretitle = if is-empty-value(pretitle) { PLACEHOLDER-PRETITLE } else { pretitle }
+  let resolved-title = if is-empty-value(title) { PLACEHOLDER-TITLE } else { title }
+  let resolved-course = if is-empty-value(course) { PLACEHOLDER-COURSE } else { course }
+  let resolved-group = if is-empty-value(group) { PLACEHOLDER-GROUP } else { group }
+  let resolved-teacher = if is-empty-value(teacher) { PLACEHOLDER-TEACHER } else { teacher }
+  let resolved-activity-code = if is-empty-value(activity_code) { PLACEHOLDER-ACTIVITY-CODE } else { activity_code }
+  let resolved-authors = resolve-authors(authors)
+
+  let author-count = if is-empty-value(authors) {
+    0
+  } else if type(authors) == array {
+    authors.len()
   } else {
-    str(gen-time.year())
+    1
+  }
+  let label-authors = if author-count > 1 {
+    COVER-LABEL-AUTHORS-MULTIPLE
+  } else {
+    COVER-LABEL-AUTHORS-SINGLE
   }
 
-  let resolved-teacher = if teacher != none {
-    teacher
-  } else if docente != none {
-    docente
-  } else {
-    ""
-  }
-
-  let resolved-course-abbr = if course_abbr != none {
-    course_abbr
-  } else {
-    ""
-  }
-
-  let resolved-authors-short = if authors_short != none {
-    authors_short
-  } else if group != "" {
-    group
-  } else if authors.len() > 0 {
-    authors.map(a => a.split(" ").at(0)).join("-")
-  } else {
-    DEFAULT-AUTHORS-SHORT-FALLBACK
-  }
-
-  let resolved-title-str = to-string(title)
-  let resolved-logo = if logo == auto {
-    image(DEFAULT-LOGO-PATH, width: cover-logo-width)
-  } else {
-    logo
-  }
+  let current-year = str(datetime.today().year())
 
   register-document-metadata(
-    title: resolved-title-str,
-    course: course,
-    course-abbr: resolved-course-abbr,
-    teacher: resolved-teacher,
-    group: group,
-    activity-type: activity_type,
-    activity-number: activity_number,
-    authors: authors,
-    authors-short: resolved-authors-short,
-    year: resolved-year,
-    university: university,
+    title: to-string(resolved-title),
+    pretitle: to-string(resolved-pretitle),
+    course: to-string(resolved-course),
+    group: to-string(resolved-group),
+    teacher: to-string(resolved-teacher),
+    activity-code: to-string(resolved-activity-code),
+    authors: resolved-authors,
+    year: current-year,
     faculty: faculty,
     school: school,
-    city-country: city_country,
     custom-variables: custom_variables,
   )
 
@@ -380,18 +372,16 @@
   set page(margin: cover-margin)
 
   render-cover-page(
-    university: university,
+    pretitle: resolved-pretitle,
+    title: resolved-title,
+    course: resolved-course,
+    group: resolved-group,
+    teacher: resolved-teacher,
+    authors: resolved-authors,
+    label-authors: label-authors,
     faculty: faculty,
     school: school,
-    logo: resolved-logo,
-    activity_type: activity_type,
-    title: title,
-    course: course,
-    group: group,
-    teacher: resolved-teacher,
-    authors: authors,
-    city_country: city_country,
-    year: resolved-year,
+    year: current-year,
   )
 
   pagebreak()
@@ -411,7 +401,7 @@
     first-line-indent: par-first-line-indent,
   )
 
-  render-body-title(title)
+  render-body-title(resolved-title)
 
   doc
 }
