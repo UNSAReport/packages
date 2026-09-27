@@ -1,53 +1,9 @@
 #import "/components/@unsareport/define/lib.typ": define, get-var, get-all-vars
 
-#let INDENT-OPEN-MARK = "__indent-open"
-#let INDENT-CLOSE-MARK = "__indent-close"
-#let NO-INDENT-OPEN-MARK = "__no-indent-open"
-#let NO-INDENT-CLOSE-MARK = "__no-indent-close"
-#let FORCE-INDENT-OPEN-MARK = "__force-indent-open"
-#let FORCE-INDENT-CLOSE-MARK = "__force-indent-close"
-#let FORCE-INDENT-DEFAULT-LEVEL = 1
-#let INDENT-LEVEL-OFFSET = 1
-#let num-gutter = 0.6em
-#let indent-width = 12pt
-#let heading-num-width = state("heading-num-width", 0pt)
-#let in-table = state("in-table", false)
+#import "/components/@unsareport/autoindent/lib.typ": *
 
-#let no-indent-block(body) = [#metadata(NO-INDENT-OPEN-MARK)#body#metadata(NO-INDENT-CLOSE-MARK)]
-#let force-indent-block(body) = [#metadata(FORCE-INDENT-OPEN-MARK)#body#metadata(FORCE-INDENT-CLOSE-MARK)]
-
-#let auto-indent(it) = context {
-  let marks = query(selector(metadata).before(here(), inclusive: false))
-  let nest-depth = marks.filter(m => m.value == INDENT-OPEN-MARK).len() - marks.filter(m => m.value == INDENT-CLOSE-MARK).len()
-  let plain-depth = marks.filter(m => m.value == NO-INDENT-OPEN-MARK).len() - marks.filter(m => m.value == NO-INDENT-CLOSE-MARK).len()
-  let force-depth = marks.filter(m => m.value == FORCE-INDENT-OPEN-MARK).len() - marks.filter(m => m.value == FORCE-INDENT-CLOSE-MARK).len()
-  let h = query(selector(heading).before(here())).at(-1, default: none)
-  if force-depth > 0 {
-    if h == none {
-      block(inset: (left: indent-width * FORCE-INDENT-DEFAULT-LEVEL))[
-        #it
-      ]
-    } else {
-      let current-num-width = heading-num-width.get()
-      block(inset: (left: indent-width * (h.level - INDENT-LEVEL-OFFSET) + current-num-width))[
-        #it
-      ]
-    }
-  } else if plain-depth > 0 {
-    it
-  } else if in-table.get() {
-    it
-  } else if nest-depth > 0 {
-    it
-  } else if h == none {
-    it
-  } else {
-    let current-num-width = heading-num-width.get()
-    block(inset: (left: indent-width * (h.level - INDENT-LEVEL-OFFSET) + current-num-width))[
-      #it
-    ]
-  }
-}
+#let num-gutter = DEFAULT-NUM-GUTTER
+#let indent-width = DEFAULT-INDENT-WIDTH
 
 #let default-logo = image("img/unsa-escudo.png", height: 130pt)
 
@@ -152,53 +108,27 @@
   show figure.where(kind: table): set block(breakable: true)
   set table.cell(breakable: false)
 
-  show heading: it => {
-    let num-content = if it.numbering != none {
-      counter(heading).display(it.numbering)
-    } else {
-      none
-    }
-    let current-num-width = if num-content != none {
-      measure(num-content).width + num-gutter
-    } else {
-      0pt
-    }
-    heading-num-width.update(current-num-width)
-    block(inset: (left: indent-width * (it.level - INDENT-LEVEL-OFFSET)))[
-      #grid(
-        columns: (current-num-width, 1fr),
-        num-content,
-        it.body
-      )
-    ]
-  }
+  show heading: it => indent-heading(
+    it,
+    indent-width: indent-width,
+    num-gutter: num-gutter,
+    indent-level-offset: INDENT-LEVEL-OFFSET,
+  )
 
-  show list.item: it => {
-    let kids = it.body.at("children", default: none)
-    if kids != none and kids.len() > 0 and kids.at(0).func() == metadata and kids.at(0).at("value", default: "") == INDENT-OPEN-MARK { it } else { list.item[#metadata(INDENT-OPEN-MARK)#it.body#metadata(INDENT-CLOSE-MARK)] }
-  }
-  show enum.item: it => {
-    let kids = it.body.at("children", default: none)
-    if kids != none and kids.len() > 0 and kids.at(0).func() == metadata and kids.at(0).at("value", default: "") == INDENT-OPEN-MARK { it } else { enum.item[#metadata(INDENT-OPEN-MARK)#it.body#metadata(INDENT-CLOSE-MARK)] }
-  }
-
-  show par: auto-indent
-  show enum: auto-indent
-  show list: auto-indent
-  show bibliography: auto-indent
-  show figure: auto-indent
-  show raw.where(block: true): auto-indent
+  show: doc => autoindent(
+    doc,
+    indent-width: indent-width,
+    num-gutter: num-gutter,
+    indent-level-offset: INDENT-LEVEL-OFFSET,
+    force-level: FORCE-INDENT-DEFAULT-LEVEL,
+    include-heading: false,
+  )
 
   set table(
     inset: (x: 8pt, y: 6pt),
     fill: (x, y) => if y == 0 { rgb("#edf2f7") } else { none },
   )
   show table.cell.where(y: 0): set text(weight: "bold")
-  show table: it => {
-    in-table.update(true)
-    it
-    in-table.update(false)
-  }
 
   block(
     width: 100%,

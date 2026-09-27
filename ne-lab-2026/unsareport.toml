@@ -10,6 +10,7 @@ tags = ["unsa", "ne", "negocios-electronicos", "report", "template"]
 command_prefix = "ne-lab-2026"
 
 [dependencies]
+"@unsareport/autoindent" = "^0.1.0"
 "@unsareport/define" = "^0.1.0"
 
 [components]

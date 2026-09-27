@@ -10,6 +10,7 @@ tags = ["unsa", "report", "template", "standard"]
 command_prefix = "standard-report"
 
 [dependencies]
+"@unsareport/autoindent" = "^0.1.0"
 "@unsareport/define" = "^0.1.0"
 "@unsareport/standard-report-theming" = "^0.1.0"
 

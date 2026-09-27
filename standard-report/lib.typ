@@ -1,18 +1,7 @@
 #import "/components/@unsareport/standard-report-theming/lib.typ": *
 #import "/components/@unsareport/define/lib.typ": define, get-var, get-all-vars
 
-#let INDENT-OPEN-MARK = "__indent-open"
-#let INDENT-CLOSE-MARK = "__indent-close"
-#let NO-INDENT-OPEN-MARK = "__no-indent-open"
-#let NO-INDENT-CLOSE-MARK = "__no-indent-close"
-#let FORCE-INDENT-OPEN-MARK = "__force-indent-open"
-#let FORCE-INDENT-CLOSE-MARK = "__force-indent-close"
-#let FORCE-INDENT-DEFAULT-LEVEL = 1
-#let INDENT-LEVEL-OFFSET = 1
-#let INITIAL-HEADING-NUM-WIDTH = 0pt
-
-#let STATE-KEY-HEADING-NUM-WIDTH = "heading-num-width"
-#let STATE-KEY-IN-TABLE = "in-table"
+#import "/components/@unsareport/autoindent/lib.typ": *
 
 #let VAR-TITLE = "title"
 #let VAR-PRETITLE = "pretitle"
@@ -47,8 +36,6 @@
 #let FIGURE-SPACE-BELOW = 1.5em
 #let TABLE-HEADER-ROW-INDEX = 0
 
-#let heading-num-width = state(STATE-KEY-HEADING-NUM-WIDTH, INITIAL-HEADING-NUM-WIDTH)
-#let in-table = state(STATE-KEY-IN-TABLE, false)
 
 
 #let to-string(it) = {
@@ -73,45 +60,6 @@
 }
 
 
-#let no-indent-block(body) = [
-  #metadata(NO-INDENT-OPEN-MARK)
-  #body
-  #metadata(NO-INDENT-CLOSE-MARK)
-]
-
-#let force-indent-block(body) = [
-  #metadata(FORCE-INDENT-OPEN-MARK)
-  #body
-  #metadata(FORCE-INDENT-CLOSE-MARK)
-]
-
-#let auto-indent(it) = context {
-  let marks = query(selector(metadata).before(here(), inclusive: false))
-  let nest-depth = marks.filter(m => m.value == INDENT-OPEN-MARK).len() - marks.filter(m => m.value == INDENT-CLOSE-MARK).len()
-  let plain-depth = marks.filter(m => m.value == NO-INDENT-OPEN-MARK).len() - marks.filter(m => m.value == NO-INDENT-CLOSE-MARK).len()
-  let force-depth = marks.filter(m => m.value == FORCE-INDENT-OPEN-MARK).len() - marks.filter(m => m.value == FORCE-INDENT-CLOSE-MARK).len()
-  let h = query(selector(heading).before(here())).at(-1, default: none)
-
-  if force-depth > 0 {
-    if h == none {
-      block(inset: (left: indent-width * FORCE-INDENT-DEFAULT-LEVEL))[#it]
-    } else {
-      let current-num-width = heading-num-width.get()
-      block(inset: (left: indent-width * (h.level - INDENT-LEVEL-OFFSET) + current-num-width))[#it]
-    }
-  } else if plain-depth > 0 {
-    it
-  } else if in-table.get() {
-    it
-  } else if nest-depth > 0 {
-    it
-  } else if h == none {
-    it
-  } else {
-    let current-num-width = heading-num-width.get()
-    block(inset: (left: indent-width * (h.level - INDENT-LEVEL-OFFSET) + current-num-width))[#it]
-  }
-}
 
 #let apply-typography-rules(doc) = {
   set text(
@@ -137,56 +85,23 @@
   })
   show heading: set text(size: heading-font-size, weight: heading-weight)
   show heading: set block(above: heading-space-above, below: heading-space-below)
-  show heading: it => {
-    let num-content = if it.numbering != none {
-      counter(heading).display(it.numbering)
-    } else {
-      none
-    }
-    let current-num-width = if num-content != none {
-      measure(num-content).width + num-gutter
-    } else {
-      INITIAL-HEADING-NUM-WIDTH
-    }
-    heading-num-width.update(current-num-width)
-    block(inset: (left: indent-width * (it.level - INDENT-LEVEL-OFFSET)))[
-      #grid(
-        columns: (current-num-width, 1fr),
-        num-content,
-        it.body,
-      )
-    ]
-  }
+  show heading: it => indent-heading(
+    it,
+    indent-width: indent-width,
+    num-gutter: num-gutter,
+    indent-level-offset: INDENT-LEVEL-OFFSET,
+  )
   doc
 }
 
-#let apply-indentation-rules(doc) = {
-  show list.item: it => {
-    let kids = it.body.at("children", default: none)
-    if kids != none and kids.len() > 0 and kids.at(0).func() == metadata and kids.at(0).at("value", default: "") == INDENT-OPEN-MARK {
-      it
-    } else {
-      list.item[#metadata(INDENT-OPEN-MARK)#it.body#metadata(INDENT-CLOSE-MARK)]
-    }
-  }
-  show enum.item: it => {
-    let kids = it.body.at("children", default: none)
-    if kids != none and kids.len() > 0 and kids.at(0).func() == metadata and kids.at(0).at("value", default: "") == INDENT-OPEN-MARK {
-      it
-    } else {
-      enum.item[#metadata(INDENT-OPEN-MARK)#it.body#metadata(INDENT-CLOSE-MARK)]
-    }
-  }
-
-  show par: auto-indent
-  show enum: auto-indent
-  show list: auto-indent
-  show bibliography: auto-indent
-  show figure: auto-indent
-  show raw.where(block: true): auto-indent
-
-  doc
-}
+#let apply-indentation-rules(doc) = autoindent(
+  doc,
+  indent-width: indent-width,
+  num-gutter: num-gutter,
+  indent-level-offset: INDENT-LEVEL-OFFSET,
+  force-level: FORCE-INDENT-DEFAULT-LEVEL,
+  include-heading: false,
+)
 
 #let apply-table-figure-rules(doc) = {
   show figure: it => block(below: FIGURE-SPACE-BELOW)[#it]
@@ -200,11 +115,6 @@
     fill: (col, row) => if row == TABLE-HEADER-ROW-INDEX { table-header-fill } else { none },
     stroke: (x, y) => table-cell-stroke,
   )
-  show table: it => {
-    in-table.update(true)
-    it
-    in-table.update(false)
-  }
   doc
 }
 
