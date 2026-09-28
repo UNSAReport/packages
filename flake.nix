@@ -55,7 +55,9 @@
           packages = pkgs.lib.flatten [
             shellPkgs
           ];
-          shellHook = "";
+          shellHook = '''
+            unset SOURCE_DATE_EPOCH
+          '';
           env = {
             FONTCONFIG_FILE = pkgs.makeFontsConf {
               fontDirectories = fonts;
