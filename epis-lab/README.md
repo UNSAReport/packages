@@ -1,8 +1,8 @@
 # @unsareport/epis-lab
 
-UNSA EPIS laboratory report format: page header with institutional logos, basic-info table, themed sections, plus the post-build copy hook. Depends on `@unsareport/epis-lab-theming`, `@unsareport/define`, and `@unsareport/gdocs-code-block` (re-exported, so one import covers all).
+Plantilla para informes de laboratorio de la Escuela Profesional de Ingeniería de Sistemas (UNSA). Incluye membrete institucional, tabla de datos generales y bloques temáticos para secciones de laboratorio.
 
-## Template usage
+## Uso
 
 ```typst
 #import "/components/@unsareport/epis-lab/lib.typ": unsa-report, lab-section, code-block
@@ -12,27 +12,49 @@ UNSA EPIS laboratory report format: page header with institutional logos, basic-
   lab_title: "Práctica 01",
   lab_number: "01",
   instructor_name: "Docente del Curso",
-  members: ("Nombre del Estudiante",),
+  members: (
+    "Nombre del Estudiante",
+  ),
   custom_variables: (
     course_abbr: "CAS",
     shortnames_chain: "ESTUDIANTE",
   ),
 )
 
-#lab-section("I. Resultados")[...]
+#lab-section("I. Resultados")[
+  Contenido de la sección...
+]
 ```
 
-`unsa-report` takes `course_name`, `lab_title`, `lab_number`, `instructor_name`, `members`, plus optional `year` / `presentation_date` / `sem_code` (default: today / today / A-B by month), `presentation_hour`, `logo-epis` / `logo-abet` overrides, and `custom_variables` (each `define()`d, so the hook can read them). Also exported: `page-header()`, `basic-info-table(...)`, `lab-section(title, ..bodies)`.
+## Parámetros de `unsa-report`
 
-## copy-report hook
+- `course_name`: Nombre de la asignatura.
+- `lab_title`: Título de la práctica.
+- `lab_number`: Número de la práctica.
+- `instructor_name`: Nombre del docente.
+- `members`: Lista con los nombres de los integrantes.
+- `year`: Año lectivo (por defecto: año actual).
+- `sem_code`: Código de semestre (`"A"` o `"B"`, por defecto calculado según la fecha).
+- `presentation_date`: Fecha de presentación (por defecto: fecha actual).
+- `presentation_hour`: Hora de presentación (por defecto: `"11:59:00"`).
+- `logo-epis`: Imagen para el logo de la EPIS (opcional).
+- `logo-abet`: Imagen para el logo de ABET (opcional).
+- `custom_variables`: Diccionario con variables adicionales para el renombrado del archivo.
 
-Copies `report.pdf` to the required `filename_format` after build. Requires Bun; reads vars via `@unsareport/define`'s `scripts/read-vars.ts`.
+## Funciones adicionales
 
-Install prompts for the required config (stored in `unsareport.d/config/unsareport-epis-lab.toml`, passed to the hook as `UNSAREP_CONFIG_EPIS_LAB_FILENAME_FORMAT`):
+- `lab-section(title, ..bodies)`: Crea una sección delimitada con encabezado destacado.
+- `page-header(...)`: Genera el membrete oficial en el encabezado de página.
+- `basic-info-table(...)`: Genera la tabla de información básica del informe.
+- `code-block(...)`: Bloque de código estilizado (re-exportado de `@unsareport/gdocs-code-block`).
+
+## Configuración de renombrado
+
+El paquete renombra automáticamente el PDF compilado según el formato configurado en `unsareport.toml`:
 
 ```toml
-[config-schema.filename_format]  # required = true, no default
-# e.g. "{shortnames_chain} - {course_abbr} - LAB {lab_number}.pdf"
+[config-schema.filename_format]
+default = "{course_abbr} - LAB{lab_number} - {shortnames_chain}.pdf"
 ```
 
-Bind to `[hooks.build].after` (the script needs the just-compiled `report.pdf`; `before` has nothing to copy). Unknown `{token}` fails naming the token and the available vars.
+Variables disponibles: `{course_name}`, `{course_abbr}`, `{lab_number}`, `{shortnames_chain}`, `{year}`, `{sem_code}`, `{instructor_name}`.

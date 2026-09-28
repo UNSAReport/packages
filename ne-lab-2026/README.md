@@ -1,10 +1,8 @@
 # @unsareport/ne-lab-2026
 
-Formato oficial para Informes de Entregable e Informes de Investigación Formativa del curso de **Negocios Electrónicos** (UNSA - EPIS): portada institucional con escudo oficial, sistema de indentación y sangría jerárquica reactiva por niveles de encabezado, índice general automático y hook post-build de renombrado formal.
+Plantilla oficial para Informes de Entregable e Informes de Investigación Formativa del curso de Negocios Electrónicos (UNSA - EPIS). Incluye portada institucional, sangría jerárquica automática, índice general y renombrado post-compilación.
 
-Depende de `@unsareport/define` (re-exportado directamente, permitiendo definir y consultar variables de metadatos del documento).
-
-## Uso de la plantilla
+## Uso
 
 ```typst
 #import "/components/@unsareport/ne-lab-2026/lib.typ": ne-report, no-indent-block, force-indent-block
@@ -26,41 +24,45 @@ Depende de `@unsareport/define` (re-exportado directamente, permitiendo definir 
   date: "2026 setiembre",
 )
 
-#include "sections/1-planificar.typ"
-// ... secciones 2 a 15 incluidas en el template
+= 1. Planificar
+Contenido del informe...
 ```
 
-La plantilla incluye la estructura completa modular de las 15 secciones requeridas por el curso y el checklist oficial de validación en `template/checklist.md`.
+## Parámetros de `ne-report`
 
-`ne-report` acepta los parámetros:
-- `university`, `faculty`, `school` (valores por defecto institucionales UNSA / FIPS / EPIS).
-- `course` (por defecto: `"NEGOCIOS ELECTRÓNICOS"`).
-- `docente` (por defecto: `"Dr. Ing. César Baluarte Araya"`).
-- `title` (por defecto: `"Informe de Entregable e Informe de Investigación Formativa"`).
-- `session` (e.g. `"Sesión: Negocios Electrónicos - Tiendas Virtuales"`).
-- `topic` (opcional, extraído de `session` si se omite).
-- `group`, `subgroup`, `session_number`, `deliverable_number` (identificadores para la entrega).
-- `year`, `semester` (por defecto calculados con la fecha actual, e.g. `2026`, `B`).
-- `delivery_type` (por defecto: `"INF"`).
-- `stage` (opcional, e.g. `"Final"`, `"Previo"`).
-- `authors` (lista de integrantes).
-- `authors_short` (opcional; si se omite, se deduce automáticamente uniendo el primer apellido de cada autor).
-- `date`, `city` (por defecto mes/año actual y `"Arequipa - Perú"`).
-- `logo` (por defecto: Escudo oficial UNSA).
-- `custom_variables` (diccionario de pares clave-valor exportados vía `define()` para lectura en hooks o consultas Typst).
+- `group`: Letra del grupo de laboratorio (ej. `"A"`).
+- `subgroup`: Número del subgrupo (ej. `"01"`).
+- `session_number`: Número de sesión (ej. `"01"`).
+- `deliverable_number`: Número del entregable (ej. `"1"`).
+- `session`: Nombre de la sesión académica.
+- `topic`: Tema específico (opcional; si se omite, se extrae del campo `session`).
+- `authors`: Lista con los nombres de los integrantes.
+- `authors_short`: Nombres cortos de autores para el archivo (opcional; si se omite, se deduce del primer apellido de cada autor).
+- `course`: Nombre de la asignatura (por defecto: `"NEGOCIOS ELECTRÓNICOS"`).
+- `docente`: Nombre del docente (por defecto: `"Dr. Ing. César Baluarte Araya"`).
+- `title`: Título principal del informe (por defecto: `"Informe de Entregable e Informe de Investigación Formativa"`).
+- `year`: Año lectivo (por defecto: año actual).
+- `semester`: Semestre académico (por defecto: `"A"` o `"B"` según la fecha).
+- `delivery_type`: Tipo de entrega (por defecto: `"INF"`).
+- `stage`: Etapa del entregable (opcional, ej. `"Final"` o `"Previo"`).
+- `date`: Fecha de la portada (por defecto: mes y año actual).
+- `city`: Ciudad e institución (por defecto: `"Arequipa - Perú"`).
+- `logo`: Imagen del escudo en la portada (por defecto: escudo oficial UNSA).
+- `custom_variables`: Diccionario con variables adicionales para el renombrado del archivo.
 
-También se exportan los bloques de control de sangría: `no-indent-block(body)` y `force-indent-block(body)`, así como las funciones de `@unsareport/define`: `define`, `get-var` y `get-all-vars`.
+## Funciones adicionales
 
-## Hook copy-report
+- `no-indent-block(body)`: Desactiva la sangría automática en el bloque indicado.
+- `force-indent-block(body)`: Fuerza la sangría automática en el bloque indicado.
+- `define`, `get-var`, `get-all-vars`: Funciones para registrar y consultar metadatos (re-exportadas de `@unsareport/define`).
 
-Copia `report.pdf` a la nomenclatura formal requerida por el curso tras la compilación exitosa. Requiere Bun y utiliza el lector compartido `readVars` de `@unsareport/define`.
+## Configuración de renombrado
 
-La configuración solicitada durante la instalación se guarda en `unsareport.d/config/unsareport-ne-lab-2026.toml` y se transmite al hook como `UNSAREP_CONFIG_NE_LAB_2026_FILENAME_FORMAT`:
+El paquete renombra automáticamente el PDF compilado según el formato configurado en `unsareport.toml`:
 
 ```toml
 [config-schema.filename_format]
-# Valor por defecto:
-# "NE Grupo {group} Subgrupo {subgroup} - Sesión {session_number} {deliverable_number} - Inv For {year} {semester} INF - Informe Entregable e Informe Investigación Formativa - {topic} - {authors_short}.pdf"
+default = "NE Grupo {group} Subgrupo {subgroup} - Sesión {session_number} {deliverable_number} - Inv For {year} {semester} INF - Informe Entregable e Informe Investigación Formativa - {topic} - {authors_short}.pdf"
 ```
 
-El hook está configurado para ejecutarse en `[hooks.build].after`.
+Variables disponibles: `{group}`, `{subgroup}`, `{session_number}`, `{deliverable_number}`, `{year}`, `{semester}`, `{delivery_type}`, `{topic}`, `{stage}`, `{authors_short}`, `{course}`.

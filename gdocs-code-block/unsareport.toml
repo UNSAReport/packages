@@ -3,14 +3,14 @@ config_version = 1
 
 [package]
 name = "@unsareport/gdocs-code-block"
-version = "0.1.0"
+version = "0.2.0"
 displayName = "Google Docs Styled Code Block"
 description = "Code block container with Google Docs styling and snippet extraction"
 tags = ["code", "snippets"]
 command_prefix = "gdocs-code-block"
 
 [components]
-files = ["lib.typ"]
+files = ["lib.typ", "README.md"]
 
 [templates]
 files = []

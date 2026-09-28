@@ -1,26 +1,22 @@
 # @unsareport/standard-report-theming
 
-Theme variables, typography, geometry, paragraph spacing, heading sizes, and table styling for UNSA standard reports.
+Tokens de diseño y variables de estilo para informes estándar de la UNSA. Define la tipografía, márgenes, espaciado de párrafos, encabezados y estilos de tablas.
 
-## Overview
-
-This package isolates all aesthetic and structural sizing tokens used by `@unsareport/standard-report`. It exposes pure `#let` bindings with zero logic or layout functions, making theme customization clean and modular.
-
-## Included Tokens
-
-- **Typography**: `font-family`, `font-size`, `font-lang`, `font-hyphenate`
-- **Geometry**: `page-paper`, `cover-margin`, `body-margin`, `page-numbering`, `page-number-align`
-- **Paragraph Spacing**: `par-justify`, `par-first-line-indent`, `par-spacing`, `par-leading`, `cover-par-leading`
-- **Headings & Title**: `heading-font-size`, `heading-weight`, `heading-space-above`, `heading-space-below`, `title-text-size`, `title-weight`, `title-space-below`
-- **Indentation Engine**: `indent-width`, `num-gutter`
-- **Tables & Figures**: `table-header-fill`, `table-cell-stroke`, `table-text-size`, `table-header-weight`
-- **Institutional & Project Configuration**: `cover-logo-width`, `faculty`, `school`
-
-
-## Usage
-
-Consumed directly by `@unsareport/standard-report`:
+## Uso
 
 ```typst
 #import "/components/@unsareport/standard-report-theming/lib.typ": *
+
+// Sobrescribir variables de estilo si es necesario
+#let font-size = 11pt
 ```
+
+## Variables disponibles
+
+- **Tipografía**: `font-family`, `font-size`, `font-lang`, `font-hyphenate`.
+- **Geometría de página**: `page-paper`, `cover-margin`, `body-margin`, `page-numbering`, `page-number-align`.
+- **Espaciado y párrafos**: `par-justify`, `par-first-line-indent`, `par-spacing`, `par-leading`, `cover-par-leading`.
+- **Encabezados y título**: `heading-font-size`, `heading-weight`, `heading-space-above`, `heading-space-below`, `title-text-size`, `title-weight`, `title-space-below`.
+- **Sangría jerárquica**: `indent-width`, `num-gutter`.
+- **Tablas**: `table-header-fill`, `table-cell-stroke`, `table-text-size`, `table-header-weight`.
+- **Institucional**: `cover-logo-width`, `faculty`, `school`.

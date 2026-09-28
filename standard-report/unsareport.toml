@@ -3,22 +3,22 @@ config_version = 1
 
 [package]
 name = "@unsareport/standard-report"
-version = "0.1.1"
+version = "0.2.0"
 displayName = "UNSA Standard Report Template & Layout"
 description = "Plantilla estándar de informes académicos UNSA con portada institucional, sangría jerárquica contextual y renombrado automático post-build"
 tags = ["unsa", "report", "template", "standard"]
 command_prefix = "standard-report"
 
 [dependencies]
-"@unsareport/autoindent" = "^0.1.0"
-"@unsareport/define" = "^0.1.0"
-"@unsareport/standard-report-theming" = "^0.1.0"
+"@unsareport/autoindent" = "^0.2.0"
+"@unsareport/define" = "^0.2.0"
+"@unsareport/standard-report-theming" = "^0.2.0"
 
 [root-files]
 files = ["tsconfig.unsareport.json"]
 
 [components]
-files = ["lib.typ", "scripts/**/*", "img/**/*", "tsconfig.unsareport.json"]
+files = ["lib.typ", "README.md", "scripts/**/*", "img/**/*", "tsconfig.unsareport.json"]
 
 [templates]
 files = ["template/**/*"]

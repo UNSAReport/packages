@@ -1,33 +1,40 @@
 # @unsareport/define
 
-Export named variables from a Typst document and read them back — inside Typst or from a hook script.
+Utilidad para definir variables de metadatos en documentos Typst y consultarlas tanto dentro de Typst como desde scripts externos en Bun.
 
-## Typst API (`lib.typ`)
+## Uso
+
+### En Typst
 
 ```typst
 #import "/components/@unsareport/define/lib.typ": define, get-var, get-all-vars
 
+// Registrar variables
 #define("course_abbr", "CAS")
+#define("lab_number", "01")
 
+// Leer variables
 #context [
-  Abbr: #get-var("course_abbr") \
-  Missing with fallback: #get-var("nope", default: "n/a")
+  Curso: #get-var("course_abbr") \
+  Opcional con valor por defecto: #get-var("seccion", default: "A")
 ]
 ```
 
-- `define(name, value)` — exports `metadata((name: name, value: value))` under `<var_export>`.
-- `get-var(name, default: none)` — value of one var; panics when missing and no default is given.
-- `get-all-vars()` — all exported vars as a dictionary.
-
-## Script API (`scripts/read-vars.ts`)
-
-For Bun hook scripts that need the same vars outside Typst:
+### En scripts externos (Bun)
 
 ```ts
 import { readVars } from "@unsareport/define/scripts/read-vars.ts";
 
 const vars = await readVars(rootDir, entryFile);
-// { course_abbr: "CAS", members: "Ana, Luis", ... }
+// { course_abbr: "CAS", lab_number: "01" }
 ```
 
-Array values join with `", "`. The `<var_export>` wire shape is owned here — hook scripts must not re-implement the `typst eval` call. Fails fast when `typst` is missing, the evaluation fails, or output is not a JSON list.
+## Funciones exportadas
+
+### Typst (`lib.typ`)
+- `define(name, value)`: Registra una variable de metadatos.
+- `get-var(name, default: none)`: Obtiene el valor de una variable. Si no existe y no tiene valor por defecto, genera un error.
+- `get-all-vars()`: Retorna un diccionario con todas las variables registradas.
+
+### TypeScript (`scripts/read-vars.ts`)
+- `readVars(rootDir, entryFile)`: Función asíncrona que extrae las variables exportadas por el documento Typst ejecutando `typst eval`.

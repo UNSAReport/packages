@@ -3,21 +3,21 @@ config_version = 1
 
 [package]
 name = "@unsareport/ne-lab-2026"
-version = "0.1.1"
+version = "0.2.0"
 displayName = "NE Lab 2026 Report Template & Layout"
 description = "Plantilla e infraestructura de informes de Negocios Electrónicos (UNSA) con sangría jerárquica y renombrado automático post-build"
 tags = ["unsa", "ne", "negocios-electronicos", "report", "template"]
 command_prefix = "ne-lab-2026"
 
 [dependencies]
-"@unsareport/autoindent" = "^0.1.0"
-"@unsareport/define" = "^0.1.0"
+"@unsareport/autoindent" = "^0.2.0"
+"@unsareport/define" = "^0.2.0"
 
 [root-files]
 files = ["tsconfig.unsareport.json"]
 
 [components]
-files = ["lib.typ", "scripts/**/*", "img/**/*", "tsconfig.unsareport.json"]
+files = ["lib.typ", "README.md", "scripts/**/*", "img/**/*", "tsconfig.unsareport.json"]
 
 [templates]
 files = ["template/**/*"]

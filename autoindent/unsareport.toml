@@ -3,14 +3,14 @@ config_version = 1
 
 [package]
 name = "@unsareport/autoindent"
-version = "0.1.0"
+version = "0.2.0"
 displayName = "Hierarchical Contextual Auto-Indentation Engine"
 description = "Contextual auto-indentation engine for headings, body blocks, lists, tables, figures, and raw blocks"
 tags = ["indentation", "layout", "headings", "lists", "utilities"]
 command_prefix = "autoindent"
 
 [components]
-files = ["lib.typ"]
+files = ["lib.typ", "README.md"]
 
 [templates]
 files = []

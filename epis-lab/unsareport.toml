@@ -3,22 +3,22 @@ config_version = 1
 
 [package]
 name = "@unsareport/epis-lab"
-version = "0.1.1"
+version = "0.2.0"
 displayName = "EPIS Lab Report Template & Layout"
 description = "UNSA EPIS laboratory report format, basic info table, sections, and post-build report copy hook"
 tags = ["epis", "lab", "report"]
 command_prefix = "epis-lab"
 
 [dependencies]
-"@unsareport/define" = "^0.1.0"
-"@unsareport/epis-lab-theming" = "^0.1.0"
-"@unsareport/gdocs-code-block" = "^0.1.0"
+"@unsareport/define" = "^0.2.0"
+"@unsareport/epis-lab-theming" = "^0.2.0"
+"@unsareport/gdocs-code-block" = "^0.2.0"
 
 [root-files]
 files = ["tsconfig.unsareport.json"]
 
 [components]
-files = ["lib.typ", "scripts/**/*", "img/**/*", "tsconfig.unsareport.json"]
+files = ["lib.typ", "README.md", "scripts/**/*", "img/**/*", "tsconfig.unsareport.json"]
 
 [templates]
 files = ["template/**/*"]

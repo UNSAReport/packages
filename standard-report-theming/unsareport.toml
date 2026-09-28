@@ -3,14 +3,14 @@ config_version = 1
 
 [package]
 name = "@unsareport/standard-report-theming"
-version = "0.1.1"
+version = "0.2.0"
 displayName = "UNSA Standard Report Theming"
 description = "Theme variables, typography, geometry, paragraph spacing, heading sizes, and table styling for UNSA standard reports"
 tags = ["theme", "unsa", "report", "theming", "standard"]
 command_prefix = "standard-report-theming"
 
 [components]
-files = ["lib.typ"]
+files = ["lib.typ", "README.md"]
 
 [templates]
 files = []

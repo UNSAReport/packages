@@ -3,7 +3,7 @@ config_version = 1
 
 [package]
 name = "@unsareport/define"
-version = "0.1.4"
+version = "0.2.0"
 displayName = "Report Variable Define & Export"
 description = "Minimal utilities for exporting metadata variables from Typst documents"
 tags = ["metadata", "utilities"]
@@ -13,7 +13,7 @@ command_prefix = "define"
 files = ["tsconfig.unsareport.json"]
 
 [components]
-files = ["lib.typ", "scripts/**/*", "tsconfig.unsareport.json"]
+files = ["lib.typ", "README.md", "scripts/**/*", "tsconfig.unsareport.json"]
 
 [templates]
 files = []
