@@ -23,10 +23,10 @@ jobs:
       - name: Publish Scope Packages
         uses: UNSAReport/UNSAReport2/actions/publish@dev
         with:
-          token: ${{ secrets.UNSAREP_TOKEN || 'unsareport_pat_00000000000000000000000000000000' }}
+          token: ${{ secrets.UNSAREP_TOKEN }}
           dir: '.'
           mode: 'scope'
           packages-dir: '.'
           check: 'true'
-          dry-run: ${{ github.event_name == 'pull_request' }}
+          dry-run: ${{ github.event_name == 'pull_request' || secrets.UNSAREP_TOKEN == '' }}
           cache: 'true'
