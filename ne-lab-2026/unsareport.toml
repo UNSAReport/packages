@@ -13,15 +13,18 @@ command_prefix = "ne-lab-2026"
 "@unsareport/autoindent" = "^0.1.0"
 "@unsareport/define" = "^0.1.0"
 
+[root-files]
+files = ["tsconfig.unsareport.json"]
+
 [components]
-files = ["lib.typ", "scripts/**/*", "img/**/*"]
+files = ["lib.typ", "scripts/**/*", "img/**/*", "tsconfig.unsareport.json"]
 
 [templates]
 files = ["template/**/*"]
 
 [commands.copy-report]
 description = "Copy compiled report to a formatted filename based on exported metadata (reads UNSAREP_CONFIG_NE_LAB_2026_FILENAME_FORMAT)"
-commands = { any = ["bun components/@unsareport/ne-lab-2026/scripts/copy_report.ts"] }
+commands = { any = ["bun run --tsconfig-override tsconfig.unsareport.json components/@unsareport/ne-lab-2026/scripts/copy_report.ts"] }
 
 [hooks.build]
 after = ["copy-report"]

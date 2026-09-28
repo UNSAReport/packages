@@ -14,15 +14,18 @@ command_prefix = "standard-report"
 "@unsareport/define" = "^0.1.0"
 "@unsareport/standard-report-theming" = "^0.1.0"
 
+[root-files]
+files = ["tsconfig.unsareport.json"]
+
 [components]
-files = ["lib.typ", "scripts/**/*", "img/**/*"]
+files = ["lib.typ", "scripts/**/*", "img/**/*", "tsconfig.unsareport.json"]
 
 [templates]
 files = ["template/**/*"]
 
 [commands.copy-report]
 description = "Copy compiled report to a formatted filename based on exported metadata (reads UNSAREP_CONFIG_STANDARD_REPORT_FILENAME_FORMAT)"
-commands = { any = ["bun components/@unsareport/standard-report/scripts/copy_report.ts"] }
+commands = { any = ["bun run --tsconfig-override tsconfig.unsareport.json components/@unsareport/standard-report/scripts/copy_report.ts"] }
 
 [hooks.build]
 after = ["copy-report"]

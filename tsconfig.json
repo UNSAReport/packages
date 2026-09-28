@@ -1,12 +1,9 @@
 {
+  "extends": "./tsconfig.unsareport.json",
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "strict": true,
-    "baseUrl": ".",
-    "paths": {
-      "@unsareport/*": ["./*"]
-    }
+    "strict": true
   }
 }

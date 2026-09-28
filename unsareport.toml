@@ -7,4 +7,3 @@ packages = ["*"]
 [scope]
 name = "@unsareport"
 description = "Official UNSAReport component library and styling"
-files = ["tsconfig.json"]

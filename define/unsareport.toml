@@ -9,8 +9,11 @@ description = "Minimal utilities for exporting metadata variables from Typst doc
 tags = ["metadata", "utilities"]
 command_prefix = "define"
 
+[root-files]
+files = ["tsconfig.unsareport.json"]
+
 [components]
-files = ["lib.typ", "scripts/**/*"]
+files = ["lib.typ", "scripts/**/*", "tsconfig.unsareport.json"]
 
 [templates]
 files = []
