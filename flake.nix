@@ -33,6 +33,7 @@
         shellPkgs = pkgs.lib.flatten [
           (with pkgs; [
             bun
+            ghostscript
           ])
           (with unstable; [
             typst

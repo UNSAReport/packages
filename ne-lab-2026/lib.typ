@@ -23,7 +23,7 @@
   year: none,
   semester: none,
   delivery_type: "INF",
-  stage: none,
+  stage: "Previo",
   authors: (),
   authors_short: none,
   date: none,
@@ -73,7 +73,7 @@
   define("year", resolved-year)
   define("semester", resolved-semester)
   define("delivery_type", delivery_type)
-  if stage != none { define("stage", stage) }
+  define("stage", stage)
   define("authors", authors)
   define("authors_short", resolved-authors-short)
   define("date", resolved-date)

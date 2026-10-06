@@ -3,7 +3,7 @@ config_version = 1
 
 [package]
 name = "@unsareport/ne-lab-2026"
-version = "0.2.0"
+version = "0.2.1"
 displayName = "NE Lab 2026 Report Template & Layout"
 description = "Plantilla e infraestructura de informes de Negocios Electrónicos (UNSA) con sangría jerárquica y renombrado automático post-build"
 tags = ["unsa", "ne", "negocios-electronicos", "report", "template"]
@@ -22,15 +22,25 @@ files = ["lib.typ", "README.md", "scripts/**/*", "img/**/*", "tsconfig.unsarepor
 [templates]
 files = ["template/**/*"]
 
+[commands.compress-pdf]
+description = "Compress compiled report PDF using Ghostscript (reads UNSAREP_CONFIG_NE_LAB_2026_PDF_SETTINGS)"
+commands = { any = ["bun run --tsconfig-override tsconfig.unsareport.json components/@unsareport/ne-lab-2026/scripts/compress_pdf.ts"] }
+
 [commands.copy-report]
 description = "Copy compiled report to a formatted filename based on exported metadata (reads UNSAREP_CONFIG_NE_LAB_2026_FILENAME_FORMAT)"
 commands = { any = ["bun run --tsconfig-override tsconfig.unsareport.json components/@unsareport/ne-lab-2026/scripts/copy_report.ts"] }
 
 [hooks.build]
-after = ["copy-report"]
+after = ["compress-pdf", "copy-report"]
 
 [config-schema.filename_format]
 type = "string"
 required = true
-default = "NE Grupo {group} Subgrupo {subgroup} - Sesión {session_number} {deliverable_number} - Inv For {year} {semester} INF - Informe Entregable e Informe Investigación Formativa - {topic} - {authors_short}.pdf"
+default = "NE Grupo {group} Subgrupo {subgroup} - Sesión {session_number} {deliverable_number} - Inv For {year} {semester} {delivery_type} - Informe Entregable e Informe Investigación Formativa - {topic} - {stage} - {authors_short}.pdf"
 doc = "Format string for renaming compiled report. Tokens: {group}, {subgroup}, {session_number}, {deliverable_number}, {year}, {semester}, {delivery_type}, {topic}, {stage}, {authors_short}, {course}, etc. Passed to the copy-report hook as UNSAREP_CONFIG_NE_LAB_2026_FILENAME_FORMAT."
+
+[config-schema.pdf_settings]
+type = "string"
+required = true
+default = "/ebook"
+doc = "Ghostscript PDFSETTINGS quality preset for PDF compression: /screen (72 dpi, smallest), /ebook (150 dpi, recommended default), /printer (300 dpi), /prepress (300 dpi, high quality color), or /default. Passed to the compress-pdf hook as UNSAREP_CONFIG_NE_LAB_2026_PDF_SETTINGS."

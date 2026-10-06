@@ -56,13 +56,42 @@ Contenido del informe...
 - `force-indent-block(body)`: Fuerza la sangría automática en el bloque indicado.
 - `define`, `get-var`, `get-all-vars`: Funciones para registrar y consultar metadatos (re-exportadas de `@unsareport/define`).
 
-## Configuración de renombrado
+## Requisitos
+
+- **Ghostscript (`gs`)**: Debe estar disponible en el sistema (`PATH`) para la ejecución del hook de compresión de PDF (`compress-pdf`).
+
+## Ciclo de hooks post-compilación
+
+El paquete ejecuta automáticamente dos hooks tras la compilación de Typst:
+
+1. **`compress-pdf`**: Comprime el archivo PDF generado inmediatamente tras la compilación con Typst, reemplazándolo in-situ mediante Ghostscript.
+2. **`copy-report`**: Copia el archivo PDF (ya comprimido) al nombre estandarizado según las variables de metadatos.
+
+## Configuración
+
+### Renombrado del archivo
 
 El paquete renombra automáticamente el PDF compilado según el formato configurado en `unsareport.toml`:
 
 ```toml
 [config-schema.filename_format]
-default = "NE Grupo {group} Subgrupo {subgroup} - Sesión {session_number} {deliverable_number} - Inv For {year} {semester} INF - Informe Entregable e Informe Investigación Formativa - {topic} - {authors_short}.pdf"
+default = "NE Grupo {group} Subgrupo {subgroup} - Sesión {session_number} {deliverable_number} - Inv For {year} {semester} {delivery_type} - Informe Entregable e Informe Investigación Formativa - {topic} - {stage} - {authors_short}.pdf"
 ```
 
 Variables disponibles: `{group}`, `{subgroup}`, `{session_number}`, `{deliverable_number}`, `{year}`, `{semester}`, `{delivery_type}`, `{topic}`, `{stage}`, `{authors_short}`, `{course}`.
+
+### Compresión de PDF (`pdf_settings`)
+
+Permite configurar la calidad y nivel de compresión de Ghostscript (`-dPDFSETTINGS`):
+
+```toml
+[config-schema.pdf_settings]
+default = "/ebook"
+```
+
+Valores recomendados:
+- `"/screen"`: Baja resolución (72 dpi), tamaño mínimo de archivo.
+- `"/ebook"`: Resolución media (150 dpi), balance óptimo recomendado para entregas digitales.
+- `"/printer"`: Alta resolución (300 dpi), apto para impresión.
+- `"/prepress"`: Calidad máxima (300 dpi, preservación estricta de color).
+- `"/default"`: Salida estándar de Ghostscript.
