@@ -18,18 +18,18 @@
   topic: none,
   group: "A",
   subgroup: "01",
-  session_number: "01",
-  deliverable_number: "1",
+  session-number: "01",
+  deliverable-number: "1",
   year: none,
   semester: none,
-  delivery_type: "INF",
+  delivery-type: "INF",
   stage: "Previo",
   authors: (),
-  authors_short: none,
+  authors-short: none,
   date: none,
   city: "Arequipa - Perú",
   logo: auto,
-  custom_variables: (:),
+  custom-variables: (:),
   body,
 ) = {
   let gen-time = datetime.today()
@@ -50,8 +50,8 @@
     session
   }
 
-  let resolved-authors-short = if authors_short != none {
-    authors_short
+  let resolved-authors-short = if authors-short != none {
+    authors-short
   } else if authors.len() > 0 {
     authors.map(a => a.split(" ").at(0)).join("-")
   } else {
@@ -68,18 +68,18 @@
   define("topic", resolved-topic)
   define("group", group)
   define("subgroup", subgroup)
-  define("session_number", session_number)
-  define("deliverable_number", deliverable_number)
+  define("session-number", session-number)
+  define("deliverable-number", deliverable-number)
   define("year", resolved-year)
   define("semester", resolved-semester)
-  define("delivery_type", delivery_type)
+  define("delivery-type", delivery-type)
   define("stage", stage)
   define("authors", authors)
-  define("authors_short", resolved-authors-short)
+  define("authors-short", resolved-authors-short)
   define("date", resolved-date)
   define("city", city)
 
-  for (name, val) in custom_variables {
+  for (name, val) in custom-variables {
     define(name, val)
   }
 
@@ -236,3 +236,5 @@
 
   body
 }
+
+#let project = ne-report

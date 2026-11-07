@@ -10,12 +10,12 @@ Utilidad para definir variables de metadatos en documentos Typst y consultarlas 
 #import "/components/@unsareport/define/lib.typ": define, get-var, get-all-vars
 
 // Registrar variables
-#define("course_abbr", "CAS")
-#define("lab_number", "01")
+#define("course-abbr", "CAS")
+#define("lab-number", "01")
 
 // Leer variables
 #context [
-  Curso: #get-var("course_abbr") \
+  Curso: #get-var("course-abbr") \
   Opcional con valor por defecto: #get-var("seccion", default: "A")
 ]
 ```
@@ -26,7 +26,7 @@ Utilidad para definir variables de metadatos en documentos Typst y consultarlas 
 import { readVars } from "@unsareport/define/scripts/read-vars.ts";
 
 const vars = await readVars(rootDir, entryFile);
-// { course_abbr: "CAS", lab_number: "01" }
+// { "course-abbr": "CAS", "lab-number": "01" }
 ```
 
 ## Funciones exportadas

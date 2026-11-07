@@ -3,7 +3,7 @@ config_version = 1
 
 [package]
 name = "@unsareport/ne-lab-2026"
-version = "0.2.1"
+version = "0.2.2"
 displayName = "NE Lab 2026 Report Template & Layout"
 description = "Plantilla e infraestructura de informes de Negocios Electrónicos (UNSA) con sangría jerárquica y renombrado automático post-build"
 tags = ["unsa", "ne", "negocios-electronicos", "report", "template"]
@@ -36,8 +36,8 @@ after = ["compress-pdf", "copy-report"]
 [config-schema.filename_format]
 type = "string"
 required = true
-default = "NE Grupo {group} Subgrupo {subgroup} - Sesión {session_number} {deliverable_number} - Inv For {year} {semester} {delivery_type} - Informe Entregable e Informe Investigación Formativa - {topic} - {stage} - {authors_short}.pdf"
-doc = "Format string for renaming compiled report. Tokens: {group}, {subgroup}, {session_number}, {deliverable_number}, {year}, {semester}, {delivery_type}, {topic}, {stage}, {authors_short}, {course}, etc. Passed to the copy-report hook as UNSAREP_CONFIG_NE_LAB_2026_FILENAME_FORMAT."
+default = "NE Grupo {group} Subgrupo {subgroup} - Sesión {session-number} {deliverable-number} - Inv For {year} {semester} {delivery-type} - Informe Entregable e Informe Investigación Formativa - {topic} - {stage} - {authors-short}.pdf"
+doc = "Format string for renaming compiled report. Tokens: {group}, {subgroup}, {session-number}, {deliverable-number}, {year}, {semester}, {delivery-type}, {topic}, {stage}, {authors-short}, {course}, etc. Passed to the copy-report hook as UNSAREP_CONFIG_NE_LAB_2026_FILENAME_FORMAT."
 
 [config-schema.pdf_settings]
 type = "string"

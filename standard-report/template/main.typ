@@ -6,7 +6,7 @@
   course: "GESTIÓN DE PROYECTOS DE SOFTWARE",
   group: "TURNO A - GRUPO 1",
   teacher: "MG. DOCENTE DEL CURSO",
-  activity_code: "T1",
+  activity-code: "T1",
   authors: (
     "Integrante 1",
     "Integrante 2",

@@ -123,45 +123,45 @@
 ]
 
 #let unsa-report(
-  course_name: none,
-  lab_title: none,
-  lab_number: none,
-  instructor_name: none,
+  course-name: none,
+  lab-title: none,
+  lab-number: none,
+  instructor-name: none,
   members: (),
   year: none,
-  presentation_date: none,
-  sem_code: none,
-  presentation_hour: "11:59:00",
+  presentation-date: none,
+  sem-code: none,
+  presentation-hour: "11:59:00",
   logo-epis: default-logo-epis,
   logo-abet: default-logo-abet,
-  custom_variables: (:),
+  custom-variables: (:),
   body,
 ) = {
-  define("course_name", course_name)
-  define("lab_title", lab_title)
-  define("lab_number", lab_number)
-  define("instructor_name", instructor_name)
+  define("course-name", course-name)
+  define("lab-title", lab-title)
+  define("lab-number", lab-number)
+  define("instructor-name", instructor-name)
   define("members", members)
 
   let gen-time = datetime.today()
   let resolved-year = if year != none { year } else { gen-time.year() }
-  let resolved-presentation-date = if presentation_date != none {
-    presentation_date
+  let resolved-presentation-date = if presentation-date != none {
+    presentation-date
   } else {
     gen-time.display("[day]/[month]/[year]")
   }
-  let resolved-sem-code = if sem_code != none {
-    sem_code
+  let resolved-sem-code = if sem-code != none {
+    sem-code
   } else {
     if gen-time.month() < 8 { "A" } else { "B" }
   }
 
   define("year", resolved-year)
-  define("presentation_date", resolved-presentation-date)
-  define("sem_code", resolved-sem-code)
-  define("presentation_hour", presentation_hour)
+  define("presentation-date", resolved-presentation-date)
+  define("sem-code", resolved-sem-code)
+  define("presentation-hour", presentation-hour)
 
-  for (name, value) in custom_variables {
+  for (name, value) in custom-variables {
     define(name, value)
   }
 
@@ -183,16 +183,18 @@
   align(center)[#text(size: header-title-text-size, weight: "bold")[INFORME DE LABORATORIO]]
 
   basic-info-table(
-    course_name,
-    lab_title,
-    lab_number,
+    course-name,
+    lab-title,
+    lab-number,
     resolved-year,
     resolved-sem-code,
     resolved-presentation-date,
-    presentation_hour,
+    presentation-hour,
     members,
-    instructor_name,
+    instructor-name,
   )
 
   body
 }
+
+#let project = unsa-report

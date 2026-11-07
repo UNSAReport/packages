@@ -3,8 +3,8 @@
 #show: ne-report.with(
   group: "A",
   subgroup: "01",
-  session_number: "01",
-  deliverable_number: "1",
+  session-number: "01",
+  deliverable-number: "1",
   session: "Sesión: Negocios Electrónicos - Tiendas Virtuales",
   topic: "Tiendas Virtuales",
   authors: (
@@ -13,7 +13,7 @@
     "Integrante 3",
     "Integrante 4",
   ),
-  authors_short: "Integrante1-Integrante2-Integrante3-Integrante4",
+  authors-short: "Integrante1-Integrante2-Integrante3-Integrante4",
   date: "2026 setiembre",
 )
 

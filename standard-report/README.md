@@ -13,7 +13,7 @@ Plantilla estándar para informes académicos de la UNSA. Incluye portada instit
   course: "GESTIÓN DE PROYECTOS DE SOFTWARE",
   group: "TURNO A - GRUPO 1",
   teacher: "MG. DOCENTE DEL CURSO",
-  activity_code: "T1",
+  activity-code: "T1",
   authors: (
     "Integrante 1",
     "Integrante 2",
@@ -32,9 +32,9 @@ Contenido del informe...
 - `course`: Nombre de la asignatura.
 - `group`: Grupo o turno de clases.
 - `teacher`: Nombre del docente.
-- `activity_code`: Código identificador de la actividad (ej. `"T1"`).
+- `activity-code`: Código identificador de la actividad (ej. `"T1"`).
 - `authors`: Lista con los nombres de los autores (o un solo nombre en texto).
-- `custom_variables`: Diccionario con variables adicionales para el renombrado del archivo.
+- `custom-variables`: Diccionario con variables adicionales para el renombrado del archivo.
 
 ## Funciones adicionales
 
@@ -48,7 +48,7 @@ El paquete renombra automáticamente el PDF compilado según el formato configur
 
 ```toml
 [config-schema.filename_format]
-default = "{course} - {activity_code} - {group} - Informe.pdf"
+default = "{course} - {activity-code} - {group} - Informe.pdf"
 ```
 
-Variables disponibles: `{course}`, `{activity_code}`, `{group}`, `{pretitle}`, `{title}`, `{teacher}`, `{authors}`, `{year}`, `{faculty}`, `{school}`, `{university}`, `{city_country}`.
+Variables disponibles: `{course}`, `{activity-code}`, `{group}`, `{pretitle}`, `{title}`, `{teacher}`, `{authors}`, `{year}`, `{faculty}`, `{school}`, `{university}`, `{city-country}`.

@@ -9,7 +9,7 @@ const TYPST_ENTRY_ENV = "UNSAREP_TYPST_ENTRY";
 const FORMAT_ENV = "UNSAREP_CONFIG_NE_LAB_2026_FILENAME_FORMAT";
 const TYPST_EXTENSION = ".typ";
 const PDF_EXTENSION = ".pdf";
-const TOKEN_PATTERN = /\{([a-zA-Z0-9_]+)\}/g;
+const TOKEN_PATTERN = /\{([a-zA-Z0-9_-]+)\}/g;
 
 function formatFilename(
   pattern: string,

@@ -8,13 +8,13 @@
 #let VAR-COURSE = "course"
 #let VAR-GROUP = "group"
 #let VAR-TEACHER = "teacher"
-#let VAR-ACTIVITY-CODE = "activity_code"
+#let VAR-ACTIVITY-CODE = "activity-code"
 #let VAR-AUTHORS = "authors"
 #let VAR-YEAR = "year"
 #let VAR-UNIVERSITY = "university"
 #let VAR-FACULTY = "faculty"
 #let VAR-SCHOOL = "school"
-#let VAR-CITY-COUNTRY = "city_country"
+#let VAR-CITY-COUNTRY = "city-country"
 
 #let INSTITUTION-UNIVERSITY = "UNIVERSIDAD NACIONAL DE SAN AGUSTÍN"
 #let INSTITUTION-CITY-COUNTRY = "AREQUIPA - PERÚ"
@@ -232,9 +232,9 @@
   course: none,
   group: none,
   teacher: none,
-  activity_code: none,
+  activity-code: none,
   authors: none,
-  custom_variables: (:),
+  custom-variables: (:),
   doc,
 ) = {
   let resolved-pretitle = if is-empty-value(pretitle) { PLACEHOLDER-PRETITLE } else { pretitle }
@@ -242,7 +242,7 @@
   let resolved-course = if is-empty-value(course) { PLACEHOLDER-COURSE } else { course }
   let resolved-group = if is-empty-value(group) { PLACEHOLDER-GROUP } else { group }
   let resolved-teacher = if is-empty-value(teacher) { PLACEHOLDER-TEACHER } else { teacher }
-  let resolved-activity-code = if is-empty-value(activity_code) { PLACEHOLDER-ACTIVITY-CODE } else { activity_code }
+  let resolved-activity-code = if is-empty-value(activity-code) { PLACEHOLDER-ACTIVITY-CODE } else { activity-code }
   let resolved-authors = resolve-authors(authors)
 
   let author-count = if is-empty-value(authors) {
@@ -271,7 +271,7 @@
     year: current-year,
     faculty: faculty,
     school: school,
-    custom-variables: custom_variables,
+    custom-variables: custom-variables,
   )
 
   show: apply-typography-rules
