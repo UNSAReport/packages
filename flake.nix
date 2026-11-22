@@ -30,39 +30,25 @@
         fonts = with pkgs; [
           carlito
         ];
-        shellPkgs = pkgs.lib.flatten [
-          (with pkgs; [
-            bun
-            ghostscript
-          ])
-          (with unstable; [
-            typst
-            typstyle
-          ])
-          fonts
-          unsareport.packages.${system}.default
-        ];
-        ldPkgs = with pkgs; [
-          stdenv.cc.cc
-          zlib
-          glib
-          libxcb
-          libglvnd
-        ];
       in
       {
         devShells.default = pkgs.mkShell {
-          LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath ldPkgs;
           packages = pkgs.lib.flatten [
-            shellPkgs
+            (with pkgs; [
+              bun
+            ])
+            (with unstable; [
+              typst
+              typstyle
+            ])
+            fonts
+            unsareport.packages.${system}.default
           ];
-          shellHook = '''
+          shellHook = ''
             unset SOURCE_DATE_EPOCH
           '';
           env = {
-            FONTCONFIG_FILE = pkgs.makeFontsConf {
-              fontDirectories = fonts;
-            };
+            TYPST_FONT_PATHS = pkgs.lib.concatMapStringsSep ":" (f: "${f}/share/fonts") fonts;
           };
           buildInputs = [ pkgs.bashInteractive ];
         };
